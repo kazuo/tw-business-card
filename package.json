@@ -1,0 +1,43 @@
+{
+  "name": "tw-business-card",
+  "version": "1.0.0",
+  "description": "An Angular directive that creates a business card element",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://kazuo@github.com/kazuo/tw-business-card.git"
+  },
+  "author": "Rey E. Marin Jr.",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kazuo/tw-business-card/issues"
+  },
+  "homepage": "https://github.com/kazuo/tw-business-card#readme",
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-clean": "^1.0.0",
+    "grunt-contrib-concat": "^0.5.1",
+    "grunt-contrib-copy": "^0.8.2",
+    "grunt-contrib-less": "^1.2.0",
+    "grunt-contrib-watch": "^0.6.1",
+    "jspm": "^0.16.27"
+  },
+  "jspm": {
+    "directories": {
+      "baseURL": "src"
+    },
+    "dependencies": {
+      "angular": "github:angular/bower-angular@^1.5.0",
+      "bootstrap": "github:twbs/bootstrap@^3.3.6",
+      "text": "github:systemjs/plugin-text@^0.0.4"
+    },
+    "devDependencies": {
+      "babel": "npm:babel-core@^5.8.24",
+      "babel-runtime": "npm:babel-runtime@^5.8.24",
+      "core-js": "npm:core-js@^1.1.4"
+    }
+  }
+}

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>tw-business-card</title>
+
+    <link rel="stylesheet" href="jspm_packages/github/twbs/bootstrap@3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+
+    <style>
+        .tw-business-card {
+            margin-right: 20px;
+            margin-bottom: 20px;
+        }
+    </style>
+
+    <script src="jspm_packages/system.js"></script>
+    <script src="config.js"></script>
+    <script>
+        System.import('app/app').catch(console.log.bind(console));
+    </script>
+</head>
+<body>
+<div class="container" ng-controller="DemoController as vm">
+    <div class="row">
+        <div class="col-sm-12">
+
+            <h1>twBusinessCard directive</h1>
+            <p><a href="https://github.com/kazuo/tw-business-card">View on Github</a></p>
+
+            <!-- tw-business-card demo -->
+            <tw-business-card ng-repeat="contact in vm.contacts" data-contact="contact"></tw-business-card>
+
+        </div>
+    </div>
+</div>
+</body>
+</html>
