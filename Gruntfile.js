@@ -41,6 +41,18 @@ module.exports = function (grunt) {
                 }
             ]
         },
+        dist: {
+            // copy HTML only in case templateUrl is being used
+            // (and obviously we want HTML pages in general)
+            files: [
+                {
+                    expand: true,
+                    cwd: '<%= directories.src %>',
+                    src: ['*', '**/*.html', 'jspm_packages/**'],
+                    dest: '<%= directories.dist %>'
+                }
+            ]
+        },
         jspm: {
             files: [
                 {
@@ -53,15 +65,29 @@ module.exports = function (grunt) {
         }
     });
 
+    // jspm
+    grunt.loadNpmTasks('grunt-jspm');
+    grunt.config('jspm', {
+        dist: {
+            options: {
+                // need to implement grunt-processhtml or something similar prior to setting to true
+                sfx: false
+            },
+            files: {
+                '<%= directories.dist %>/app/app.js': '<%= directories.src %>/app/app.js'
+            }
+        }
+    });
+
     // less
     grunt.loadNpmTasks('grunt-contrib-less');
     grunt.config('less', {
-        development: {
+        build: {
             files: {
                 '<%= directories.build %>/css/styles.css': ['<%= directories.src %>/**/*.less']
             }
         },
-        production: {
+        dist: {
             plugins: [
                 new (require('less-plugin-autoprefix'))({browsers: ["last 2 versions"]}),
                 new (require('less-plugin-clean-css'))({})
@@ -82,7 +108,7 @@ module.exports = function (grunt) {
                 '<%= directories.src %>/css/**/*.less',
                 '<%= directories.src %>/modules/**/*.less'
             ],
-            tasks: ['less:development']
+            tasks: ['less:build']
         },
         app: {
             files: [
@@ -98,9 +124,17 @@ module.exports = function (grunt) {
     // build task
     grunt.registerTask('build', [
         'clean:build',
-        'less:development',
+        'less:build',
         'copy:jspm',
         'copy:build'
+    ]);
+
+    // dist task
+    grunt.registerTask('dist', [
+        'clean:dist',
+        'less:dist',
+        'copy:dist',
+        'jspm:dist'
     ]);
 
     // default task
