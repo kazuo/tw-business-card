@@ -23,7 +23,9 @@
     "grunt-contrib-copy": "^0.8.2",
     "grunt-contrib-less": "^1.2.0",
     "grunt-contrib-watch": "^0.6.1",
-    "jspm": "^0.16.27"
+    "jspm": "^0.16.27",
+    "less-plugin-autoprefix": "^1.5.1",
+    "less-plugin-clean-css": "^1.5.1"
   },
   "jspm": {
     "directories": {

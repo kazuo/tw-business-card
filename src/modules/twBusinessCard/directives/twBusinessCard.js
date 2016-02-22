@@ -10,27 +10,27 @@ import template from './../templates/tw-business-card.html!text';
  */
 export default function twBusinessCard()
 {
-	return {
-		restrict: 'EA',
-		scope: {
-			contact: '=?'
-		},
-		template: template,
-		controller: TwBusinessCardController,
-		controllerAs: 'vm',
-		link: function (scope, elem, attrs, ctrl) {
-			elem.addClass('tw-business-card');
-			ctrl.initialize(scope.contact);
+    return {
+        restrict: 'EA',
+        scope: {
+            contact: '=?'
+        },
+        template: template,
+        controller: TwBusinessCardController,
+        controllerAs: 'vm',
+        link: function (scope, elem, attrs, ctrl) {
+            elem.addClass('tw-business-card');
+            ctrl.initialize(scope.contact);
 
-			scope.$watch('over', function (over) {
-				if (over) {
-					elem.addClass('hover');
-				} else {
-					elem.removeClass('hover');
-				}
-			});
-		}
-	};
+            scope.$watch('over', function (over) {
+                if (over) {
+                    elem.addClass('hover');
+                } else {
+                    elem.removeClass('hover');
+                }
+            });
+        }
+    };
 }
 
 /**
@@ -50,24 +50,24 @@ TwBusinessCardController.$inject = [];
  */
 function TwBusinessCardController()
 {
-	var vm = this;
+    var vm = this;
 
-	angular.extend(vm, {
-		initialize: initialize
-	});
+    angular.extend(vm, {
+        initialize: initialize
+    });
 
-	//////////////////////////////////////////////// controller methods ////////////////////////////////////////////////
+    //////////////////////////////////////////////// controller methods ////////////////////////////////////////////////
 
-	/**
-	 * @ngdoc method
-	 * @name initialize
-	 * @methodOf module.twBusinessCard.controller:TwBusinessCardController
-	 * @description Initializes the controller
-	 *
-	 * @param {object} data
-	 */
-	function initialize(data)
-	{
-		angular.extend(vm, data);
-	}
+    /**
+     * @ngdoc method
+     * @name initialize
+     * @methodOf module.twBusinessCard.controller:TwBusinessCardController
+     * @description Initializes the controller
+     *
+     * @param {object} data
+     */
+    function initialize(data)
+    {
+        angular.extend(vm, data);
+    }
 }

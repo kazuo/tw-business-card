@@ -4,4 +4,4 @@ import 'angular';
 import twBusinessCard from './directives/twBusinessCard';
 
 angular.module('module.twBusinessCard', [])
-	.directive('twBusinessCard', twBusinessCard);
+    .directive('twBusinessCard', twBusinessCard);
