@@ -63,7 +63,6 @@ function TwBusinessCardController()
      * @name initialize
      * @methodOf module.twBusinessCard.controller:TwBusinessCardController
      * @description Initializes the controller
-     *
      * @param {object} data
      */
     function initialize(data)

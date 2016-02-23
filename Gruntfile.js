@@ -58,7 +58,7 @@ module.exports = function (grunt) {
                 {
                     expand: true,
                     cwd: '<%= directories.src %>',
-                    src: ['jspm_packages'],
+                    src: ['jspm_packages/**'],
                     dest: '<%= directories.build %>'
                 }
             ]
@@ -74,7 +74,7 @@ module.exports = function (grunt) {
                 sfx: false
             },
             files: {
-                '<%= directories.dist %>/app/app.js': '<%= directories.src %>/app/app.js'
+                '<%= directories.dist %>/build.js': '<%= directories.src %>/app/app.js'
             }
         }
     });
@@ -121,12 +121,18 @@ module.exports = function (grunt) {
         }
     });
 
+    // stubs a build.js for development
+    grunt.registerTask('stubApp', "Stubbing build.js", function () {
+        grunt.file.write(grunt.config('directories.build') + '/build.js', "'use strict';");
+    });
+
     // build task
     grunt.registerTask('build', [
         'clean:build',
         'less:build',
         'copy:jspm',
-        'copy:build'
+        'copy:build',
+        'stubApp'
     ]);
 
     // dist task
