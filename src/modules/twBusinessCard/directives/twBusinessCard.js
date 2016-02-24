@@ -53,7 +53,14 @@ function TwBusinessCardController()
     var vm = this;
 
     angular.extend(vm, {
-        initialize: initialize
+        initialize: initialize,
+        contact: {
+            name: 'Name',
+            title: 'Title',
+            email: 'name@example.com',
+            phone: '+1 (323) 555-1234',
+            oneLiner: 'The back of the card'
+        }
     });
 
     //////////////////////////////////////////////// controller methods ////////////////////////////////////////////////
@@ -63,10 +70,12 @@ function TwBusinessCardController()
      * @name initialize
      * @methodOf module.twBusinessCard.controller:TwBusinessCardController
      * @description Initializes the controller
-     * @param {object} data
+     * @param {object} [data]
      */
     function initialize(data)
     {
-        angular.extend(vm, data);
+        if (angular.isObject(data)) {
+            vm.contact = data;
+        }
     }
 }

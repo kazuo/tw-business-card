@@ -33,6 +33,13 @@ angular.module('app', [
             email: 'johnny.b.good@twinwork.net',
             phone: '+1 (818) 555-1234',
             oneLiner: "Rock On!"
+        },
+        {
+            name: 'Jane Deaux',
+            title: 'Officer Manager',
+            email: 'jane.deaux@twinwork.net',
+            phone: '+1 (323) 555-4321',
+            oneLiner: ":)"
         }
     ];
 }]);
