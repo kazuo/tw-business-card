@@ -11,7 +11,7 @@ import template from './../templates/tw-business-card.html!text';
 export default function twBusinessCard()
 {
     return {
-        restrict: 'EA',
+        restrict: 'E',
         scope: {
             contact: '=?'
         },
