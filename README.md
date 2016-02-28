@@ -19,6 +19,7 @@ Then to install the project:
 
 ```
 npm install
+jspm install
 ```
 
 To create a developer build for the project:
