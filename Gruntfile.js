@@ -1,12 +1,17 @@
 'use strict';
 
+var _ = require('lodash');
+
 module.exports = function (grunt) {
+    var pkg = grunt.file.readJSON('package.json');
+
     grunt.initConfig({
-        package: grunt.file.readJSON('package.json'),
+        package: pkg,
         directories: {
             tmp: './_tmp',
             build: './build',
             dist: './dist',
+            module: '<%= directories.src %>/modules/' + _.camelCase(pkg.name),
             src: './src'
         }
     });
@@ -41,7 +46,7 @@ module.exports = function (grunt) {
                 }
             ]
         },
-        dist: {
+        'dist-app': {
             // copy HTML only in case templateUrl is being used
             // (and obviously we want HTML pages in general)
             files: [
@@ -68,7 +73,7 @@ module.exports = function (grunt) {
     // jspm
     grunt.loadNpmTasks('grunt-jspm');
     grunt.config('jspm', {
-        dist: {
+        'dist-app': {
             options: {
                 // need to implement grunt-processhtml or something similar prior to setting to true
                 sfx: false
@@ -76,6 +81,17 @@ module.exports = function (grunt) {
             files: {
                 '<%= directories.dist %>/build.js': '<%= directories.src %>/app/app.js'
             }
+        },
+        'dist-module': {
+            options: {
+                sfx: false
+            },
+            files: [
+                {
+                    src: ['<%= directories.module %>/module.js'],
+                    dest: (grunt.option('target') || '<%= directories.dist %>') + '/<%= package.name %>.min.js'
+                }
+            ]
         }
     });
 
@@ -87,29 +103,38 @@ module.exports = function (grunt) {
                 '<%= directories.build %>/css/styles.css': ['<%= directories.src %>/**/*.less']
             }
         },
-        dist: {
-            plugins: [
-                new (require('less-plugin-autoprefix'))({browsers: ["last 2 versions"]}),
-                new (require('less-plugin-clean-css'))({})
-            ],
+        'dist-app': {
             files: {
                 '<%= directories.dist %>/css/styles.css': ['<%= directories.src %>/**/*.less']
             },
-            compress: true
+            options: {
+                plugins: [
+                    new (require('less-plugin-autoprefix'))({browsers: ["last 2 versions"]}),
+                    new (require('less-plugin-clean-css'))({})
+                ],
+                compress: true
+            }
+        },
+        'dist-module': {
+            files: [
+                {
+                    src: ['<%= directories.module %>/**/*.less'],
+                    dest: (grunt.option('target') || '<%= directories.dist %>') + '/<%= package.name %>.min.css'
+                }
+            ],
+            options: {
+                plugins: [
+                    new (require('less-plugin-autoprefix'))({browsers: ["last 2 versions"]}),
+                    new (require('less-plugin-clean-css'))({})
+                ],
+                compress: true
+            }
         }
     });
 
     // watch
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.config('watch', {
-        css: {
-            files: [
-                '<%= directories.src %>/app/**/*.less',
-                '<%= directories.src %>/css/**/*.less',
-                '<%= directories.src %>/modules/**/*.less'
-            ],
-            tasks: ['less:build']
-        },
         app: {
             files: [
                 ['**/*.js', '**/*.html', '!jspm_packages/**']
@@ -118,11 +143,31 @@ module.exports = function (grunt) {
                 cwd: '<%= directories.src %>'
             },
             tasks: ['copy:build']
+        },
+        'css-build': {
+            files: [
+                '<%= directories.src %>/app/**/*.less',
+                '<%= directories.src %>/css/**/*.less',
+                '<%= directories.src %>/modules/**/*.less'
+            ],
+            tasks: ['less:build']
+        },
+        'css-dist': {
+            files: [
+                '<%= directories.src %>/modules/**/*.less'
+            ],
+            tasks: ['less:dist-module']
+        },
+        'module-dist': {
+            files: [
+                '<%= directories.module %>/**'
+            ],
+            tasks: ['jspm:dist-module']
         }
     });
 
     // stubs a build.js for development
-    grunt.registerTask('stubApp', "Stubbing build.js", function () {
+    grunt.registerTask('stub-app', "Stubbing build.js", function () {
         grunt.file.write(grunt.config('directories.build') + '/build.js', "'use strict';");
     });
 
@@ -132,19 +177,38 @@ module.exports = function (grunt) {
         'less:build',
         'copy:jspm',
         'copy:build',
-        'stubApp'
+        'stub-app'
     ]);
 
-    // dist task
-    grunt.registerTask('dist', [
+    // default dist task
+    grunt.registerTask('dist', ['dist-module']);
+
+    grunt.registerTask('dist-app', [
         'clean:dist',
-        'less:dist',
-        'copy:dist',
-        'jspm:dist'
+        'less:dist-app',
+        'copy:dist-app',
+        'jspm:dist-app'
+    ]);
+
+    grunt.registerTask('dist-module', [
+        'clean:dist',
+        'less:dist-module',
+        'jspm:dist-module'
     ]);
 
     // default task
-    grunt.registerTask('default', ['build', 'watch']);
+    grunt.registerTask('sync', [
+        'build',
+        'watch:css-dist',
+        'watch:module-dist'
+    ]);
+
+    // default task
+    grunt.registerTask('default', [
+        'build',
+        'watch:css-build',
+        'watch:app'
+    ]);
 
     //////////////////////////////////////////////// private functions ////////////////////////////////////////////////
 

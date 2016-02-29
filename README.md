@@ -29,7 +29,15 @@ grunt build
 ```
 
 During development, point your web server to the `build` folder as its web root. Also for development, simply run 
-`grunt` and the default task will build and watch your files
+`grunt` and the default task will build and watch your files. Alternatively, there is also a `grunt sync` option that
+will build a `dist` version and watch for changes on the `twBusinessCard` module itself. The `grunt sync` task
+optionally takes a `target` option for the `dist` folder:
+
+```
+grunt sync --target=./../my-other-app/packages/tw-business-card
+```
+
+It will copy the contents of the built `dist` folder into the target folder
 
 A `grunt dist` command is also available to creating a distribution build of the project
 
