@@ -84,12 +84,13 @@ module.exports = function (grunt) {
         },
         'dist-module': {
             options: {
-                sfx: false
+                sfx: false,
+                minify: false
             },
             files: [
                 {
                     src: ['<%= directories.module %>/module.js'],
-                    dest: (grunt.option('target') || '<%= directories.dist %>') + '/<%= package.name %>.min.js'
+                    dest: (grunt.option('target') || '<%= directories.dist %>') + '/<%= package.name %>.js'
                 }
             ]
         }
@@ -132,6 +133,24 @@ module.exports = function (grunt) {
         }
     });
 
+    // uglify
+    grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.config('uglify', {
+        'dist-module': {
+            options: {
+                sourceMap: true,
+                screwIE8: true
+            },
+            files: [
+                {
+                    // requires jspm:dist-module to be done
+                    src: [(grunt.option('target') || '<%= directories.dist %>') + '/<%= package.name %>.js'],
+                    dest: (grunt.option('target') || '<%= directories.dist %>') + '/<%= package.name %>.min.js'
+                }
+            ]
+        }
+    });
+
     // watch
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.config('watch', {
@@ -162,7 +181,7 @@ module.exports = function (grunt) {
             files: [
                 '<%= directories.module %>/**'
             ],
-            tasks: ['jspm:dist-module']
+            tasks: ['jspm:dist-module', 'uglify:dist-module']
         }
     });
 
@@ -193,7 +212,8 @@ module.exports = function (grunt) {
     grunt.registerTask('dist-module', [
         'clean:dist',
         'less:dist-module',
-        'jspm:dist-module'
+        'jspm:dist-module',
+        'uglify:dist-module'
     ]);
 
     // default task
