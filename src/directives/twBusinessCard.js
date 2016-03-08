@@ -1,6 +1,7 @@
 'use strict';
 
 import template from './../templates/tw-business-card.html!text';
+import './../styles/styles.css!';
 
 /**
  * @ngdoc directive

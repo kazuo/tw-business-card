@@ -40,21 +40,9 @@ module.exports = function (grunt) {
                 {
                     expand: true,
                     cwd: '<%= directories.src %>',
-                    src: ['**/*.js', '**/*.html'],
-                    dest: '<%= directories.build %>',
+                    src: ['**'],
+                    dest: grunt.option('target') || '<%= directories.build %>',
                     filter: filterJspmPackages
-                }
-            ]
-        },
-        'dist-app': {
-            // copy HTML only in case templateUrl is being used
-            // (and obviously we want HTML pages in general)
-            files: [
-                {
-                    expand: true,
-                    cwd: '<%= directories.src %>',
-                    src: ['*', '**/*.html', 'jspm_packages/**'],
-                    dest: '<%= directories.dist %>'
                 }
             ]
         },
@@ -64,7 +52,7 @@ module.exports = function (grunt) {
                     expand: true,
                     cwd: '<%= directories.src %>',
                     src: ['jspm_packages/**'],
-                    dest: '<%= directories.build %>'
+                    dest: grunt.option('target') || '<%= directories.build %>'
                 }
             ]
         }
@@ -73,23 +61,14 @@ module.exports = function (grunt) {
     // jspm
     grunt.loadNpmTasks('grunt-jspm');
     grunt.config('jspm', {
-        'dist-app': {
+        dist: {
             options: {
-                // need to implement grunt-processhtml or something similar prior to setting to true
-                sfx: false
-            },
-            files: {
-                '<%= directories.dist %>/build.js': '<%= directories.src %>/app/app.js'
-            }
-        },
-        'dist-module': {
-            options: {
-                sfx: false,
+                sfx: true,
                 minify: false
             },
             files: [
                 {
-                    src: ['<%= directories.module %>/module.js'],
+                    src: ['<%= directories.src %>/module.js'],
                     dest: (grunt.option('target') || '<%= directories.dist %>') + '/<%= package.name %>.js'
                 }
             ]
@@ -104,10 +83,13 @@ module.exports = function (grunt) {
                 '<%= directories.build %>/css/styles.css': ['<%= directories.src %>/**/*.less']
             }
         },
-        'dist-app': {
-            files: {
-                '<%= directories.dist %>/css/styles.css': ['<%= directories.src %>/**/*.less']
-            },
+        dist: {
+            files: [
+                {
+                    src: ['<%= directories.src%>/styles/*.less'],
+                    dest: (grunt.option('target') || '<%= directories.dist %>') + '/<%= package.name %>.min.css'
+                }
+            ],
             options: {
                 plugins: [
                     new (require('less-plugin-autoprefix'))({browsers: ["last 2 versions"]}),
@@ -116,13 +98,10 @@ module.exports = function (grunt) {
                 compress: true
             }
         },
-        'dist-module': {
-            files: [
-                {
-                    src: ['<%= directories.module %>/**/*.less'],
-                    dest: (grunt.option('target') || '<%= directories.dist %>') + '/<%= package.name %>.min.css'
-                }
-            ],
+        src: {
+            files: {
+                '<%= directories.src %>/styles/styles.css': ['<%= directories.src %>/**/*.less']
+            },
             options: {
                 plugins: [
                     new (require('less-plugin-autoprefix'))({browsers: ["last 2 versions"]}),
@@ -136,14 +115,14 @@ module.exports = function (grunt) {
     // uglify
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.config('uglify', {
-        'dist-module': {
+        dist: {
             options: {
                 sourceMap: true,
                 screwIE8: true
             },
             files: [
                 {
-                    // requires jspm:dist-module to be done
+                    // requires jspm:dist to be done
                     src: [(grunt.option('target') || '<%= directories.dist %>') + '/<%= package.name %>.js'],
                     dest: (grunt.option('target') || '<%= directories.dist %>') + '/<%= package.name %>.min.js'
                 }
@@ -154,80 +133,46 @@ module.exports = function (grunt) {
     // watch
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.config('watch', {
-        app: {
+        css: {
             files: [
-                ['**/*.js', '**/*.html', '!jspm_packages/**']
-            ],
-            options: {
-                cwd: '<%= directories.src %>'
-            },
-            tasks: ['copy:build']
-        },
-        'css-build': {
-            files: [
-                '<%= directories.src %>/app/**/*.less',
-                '<%= directories.src %>/css/**/*.less',
-                '<%= directories.src %>/modules/**/*.less'
+                '<%= directories.src %>/**/*.less'
             ],
             tasks: ['less:build']
         },
-        'css-dist': {
+        build: {
             files: [
-                '<%= directories.src %>/modules/**/*.less'
+                '<%= directories.src %>/**/*.less'
             ],
-            tasks: ['less:dist-module']
+            tasks: ['less:src', 'copy:build']
         },
-        'module-dist': {
+        dist: {
             files: [
                 '<%= directories.module %>/**'
             ],
-            tasks: ['jspm:dist-module', 'uglify:dist-module']
+            tasks: ['jspm:dist', 'uglify:dist']
         }
-    });
-
-    // stubs a build.js for development
-    grunt.registerTask('stub-app', "Stubbing build.js", function () {
-        grunt.file.write(grunt.config('directories.build') + '/build.js', "'use strict';");
     });
 
     // build task
     grunt.registerTask('build', [
         'clean:build',
-        'less:build',
+        'less:src',
         'copy:jspm',
-        'copy:build',
-        'stub-app'
+        'copy:build'
     ]);
 
     // default dist task
-    grunt.registerTask('dist', ['dist-module']);
-
-    grunt.registerTask('dist-app', [
+    grunt.registerTask('dist', [
         'clean:dist',
-        'less:dist-app',
-        'copy:dist-app',
-        'jspm:dist-app'
-    ]);
-
-    grunt.registerTask('dist-module', [
-        'clean:dist',
-        'less:dist-module',
-        'jspm:dist-module',
-        'uglify:dist-module'
-    ]);
-
-    // default task
-    grunt.registerTask('sync', [
-        'build',
-        'watch:css-dist',
-        'watch:module-dist'
+        'less:dist',
+        'jspm:dist',
+        'uglify:dist'
     ]);
 
     // default task
     grunt.registerTask('default', [
         'build',
-        'watch:css-build',
-        'watch:app'
+        'watch:build'
     ]);
 
     //////////////////////////////////////////////// private functions ////////////////////////////////////////////////
