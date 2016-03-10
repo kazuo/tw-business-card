@@ -141,7 +141,7 @@ module.exports = function (grunt) {
         },
         build: {
             files: [
-                '<%= directories.src %>/**/*.less'
+                '<%= directories.src %>/**'
             ],
             tasks: ['less:src', 'copy:build']
         },

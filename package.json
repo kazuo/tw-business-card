@@ -4,7 +4,7 @@
   "description": "An Angular directive that creates a business card element",
   "main": "index.js",
   "scripts": {
-    "postinstall": "grunt less:src",
+    "postinstall": "jspm install && grunt less:src",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -38,7 +38,6 @@
     },
     "dependencies": {
       "angular": "github:angular/bower-angular@^1.5.0",
-      "bootstrap": "github:twbs/bootstrap@^3.3.6",
       "css": "github:systemjs/plugin-css@^0.1.20",
       "text": "github:systemjs/plugin-text@^0.0.4"
     },

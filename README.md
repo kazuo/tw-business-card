@@ -19,7 +19,6 @@ Then to install the project:
 
 ```
 npm install
-jspm install
 ```
 
 To create a developer build for the project:
@@ -34,7 +33,7 @@ will build a `dist` version and watch for changes on the `twBusinessCard` module
 optionally takes a `target` option for the `dist` folder:
 
 ```
-grunt sync --target=./../my-other-app/packages/tw-business-card
+grunt --target=./../my-other-app/packages/tw-business-card
 ```
 
 It will copy the contents of the built `dist` folder into the target folder
