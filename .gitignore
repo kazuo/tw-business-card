@@ -4,4 +4,3 @@ build
 dist
 node_modules
 src/jspm_packages
-src/styles/styles.css
