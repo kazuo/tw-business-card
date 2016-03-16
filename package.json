@@ -2,12 +2,7 @@
   "name": "tw-business-card",
   "version": "1.0.0",
   "description": "An Angular directive that creates a business card element",
-  "directories": {
-    "lib": "src"
-  },
-  "main": "module.js",
-  "format": "es6",
-  "registry": "jspm",
+  "main": "index.js",
   "scripts": {
     "postinstall": "jspm install && grunt less:src",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -38,8 +33,11 @@
   },
   "jspm": {
     "directories": {
-      "baseURL": "src"
+      "baseURL": "src",
+      "lib": "src"
     },
+    "main": "module.js",
+    "format": "esm",
     "dependencies": {
       "angular": "github:angular/bower-angular@^1.5.0",
       "css": "github:systemjs/plugin-css@^0.1.20",
