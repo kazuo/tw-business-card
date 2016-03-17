@@ -8,11 +8,9 @@ module.exports = function (grunt) {
     grunt.initConfig({
         package: pkg,
         directories: {
-            tmp: './_tmp',
-            build: './build',
-            dist: './dist',
-            module: '<%= directories.src %>/modules/' + _.camelCase(pkg.name),
-            src: './src'
+            build:  _.get(pkg, 'directories.build') || './build',
+            dist: _.get(pkg, 'directories.dist') || './dist',
+            src: _.get(pkg, 'directories.src') || './src'
         }
     });
 
@@ -21,9 +19,6 @@ module.exports = function (grunt) {
     // clean
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.config('clean', {
-        tmp: {
-            src: ['<%= directories.tmp %>']
-        },
         build: {
             src: ['<%= directories.build %>']
         },
@@ -144,12 +139,6 @@ module.exports = function (grunt) {
                 '<%= directories.src %>/**'
             ],
             tasks: ['less:src', 'copy:build']
-        },
-        dist: {
-            files: [
-                '<%= directories.module %>/**'
-            ],
-            tasks: ['jspm:dist', 'uglify:dist']
         }
     });
 
@@ -157,7 +146,6 @@ module.exports = function (grunt) {
     grunt.registerTask('build', [
         'clean:build',
         'less:src',
-        'copy:jspm',
         'copy:build'
     ]);
 
