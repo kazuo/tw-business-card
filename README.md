@@ -70,10 +70,11 @@ And in your HTML
 
 ## Development
 
-Development requires `grunt`:
+Development requires `grunt` and `karma`:
 
 ```
-npm install -g grunt
+npm install -g grunt-cli
+npm install -g karma-cli
 ```
 
 Then to install the project:
@@ -92,16 +93,11 @@ There is no demo site in the source code of the project, so it's highly recommen
 app to bootstrap `tw-business-card` by following the install instructions above. Once that's complete, you can run the 
 following command that will copy the build folder into your dev app.
 
-During development, point your web server to the `build` folder as its web root. Also for development, simply run 
-`grunt` and the default task will build and watch your files. Alternatively, there is also a `grunt sync` option that
-will build a `dist` version and watch for changes on the `twBusinessCard` module itself. The `grunt sync` task
-optionally takes a `target` option for the `dist` folder:
-
 ```
-grunt --target=./../my-other-app/packages/tw-business-card
+grunt --target=./../my-other-app/src/jspm_packages/github/kazuo/tw-business-card@master
 ```
 
-It will copy the contents of the built `dist` folder into the target folder
+It will copy the contents of the `build` folder into the target folder
 
-A `grunt dist` command is also available to creating a distribution build of the project
+A `grunt dist` command is also available to creating a distribution build of the project.
 

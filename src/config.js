@@ -14,7 +14,8 @@ System.config({
   },
 
   map: {
-    "angular": "github:angular/bower-angular@1.5.0",
+    "angular": "github:angular/bower-angular@1.5.1",
+    "angular-mocks": "github:angular/bower-angular-mocks@1.5.1",
     "babel": "npm:babel-core@5.8.35",
     "babel-runtime": "npm:babel-runtime@5.8.35",
     "bootstrap": "github:twbs/bootstrap@3.3.6",
@@ -22,6 +23,9 @@ System.config({
     "core-js": "npm:core-js@1.2.6",
     "css": "github:systemjs/plugin-css@0.1.20",
     "text": "github:systemjs/plugin-text@0.0.4",
+    "github:angular/bower-angular-mocks@1.5.1": {
+      "angular": "github:angular/bower-angular@1.5.1"
+    },
     "github:jspm/nodelibs-assert@0.1.0": {
       "assert": "npm:assert@1.3.0"
     },
