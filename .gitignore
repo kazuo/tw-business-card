@@ -3,4 +3,4 @@ _tmp
 build
 dist
 node_modules
-src/jspm_packages
+jspm_packages

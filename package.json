@@ -44,7 +44,6 @@
   "jspm": {
     "format": "esm",
     "directories": {
-      "baseURL": "src",
       "lib": "src"
     },
     "dependencies": {
