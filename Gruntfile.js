@@ -70,6 +70,31 @@ module.exports = function (grunt) {
         }
     });
 
+    // karma
+    grunt.loadNpmTasks('grunt-karma');
+    grunt.config('karma', {
+        options: {
+            basePath: '.',
+            frameworks: ['chai', 'jspm', 'mocha'],
+            reporters: ['spec'],
+            jspm: {
+                loadFiles: ['test/**/*.spec.js'],
+                serveFiles: ['src/**/*.js'],
+                config: 'src/config.js'
+            },
+            colors: true,
+            concurrency: Infinity
+        },
+        unit: {
+            options: {
+                port: 9999,
+                browsers: ['PhantomJS'],
+                autoWatch: false,
+                singleRun: true
+            }
+        }
+    });
+
     // less
     grunt.loadNpmTasks('grunt-contrib-less');
     grunt.config('less', {
