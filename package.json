@@ -1,6 +1,6 @@
 {
   "name": "tw-business-card",
-  "version": "1.0.4",
+  "version": "1.0.3",
   "description": "An Angular directive that creates a business card element",
   "main": "module.js",
   "scripts": {
