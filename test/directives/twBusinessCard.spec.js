@@ -14,7 +14,6 @@ describe('twBusinessCard directive without settings', function () {
         element = $compile(element)(scope);
         scope.$apply();
         isolate = element.isolateScope();
-        $('body').empty().append(element);
     }));
 
     it('should have an empty contact object by default', function () {

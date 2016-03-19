@@ -156,7 +156,7 @@ module.exports = function (grunt) {
             files: [
                 '<%= directories.src %>/**'
             ],
-            tasks: ['less:src', 'copy:build']
+            tasks: ['less:src', 'karma:unit', 'copy:build']
         }
     });
 
