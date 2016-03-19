@@ -8,9 +8,9 @@ module.exports = function (grunt) {
     grunt.initConfig({
         package: pkg,
         directories: {
-            build:  _.get(pkg, 'directories.build') || './build',
-            dist: _.get(pkg, 'directories.dist') || './dist',
-            src: _.get(pkg, 'directories.src') || './src'
+            build:  _.get(pkg, 'directories.build') || _.get(pkg, 'jspm.directories.build') || './build',
+            dist: _.get(pkg, 'directories.dist') || _.get(pkg, 'jspm.directories.dist') || './dist',
+            src: _.get(pkg, 'directories.src') || _.get(pkg, 'jspm.directories.src') || './src'
         }
     });
 
@@ -36,17 +36,6 @@ module.exports = function (grunt) {
                     expand: true,
                     cwd: '<%= directories.src %>',
                     src: ['**'],
-                    dest: grunt.option('target') || '<%= directories.build %>',
-                    filter: filterJspmPackages
-                }
-            ]
-        },
-        jspm: {
-            files: [
-                {
-                    expand: true,
-                    cwd: '<%= directories.src %>',
-                    src: ['jspm_packages/**'],
                     dest: grunt.option('target') || '<%= directories.build %>'
                 }
             ]
@@ -74,13 +63,17 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-karma');
     grunt.config('karma', {
         options: {
-            basePath: '.',
+            basePath: '',
             frameworks: ['chai', 'jspm', 'mocha'],
             reporters: ['spec'],
             jspm: {
-                loadFiles: ['test/**/*.spec.js'],
-                serveFiles: ['src/**/*.js'],
-                config: 'src/config.js'
+                loadFiles: ['src/**/*.js', 'test/**/*.spec.js'],
+                serveFiles: [
+                    'src/**/!(*.spec).js',
+                    'src/**/*.html',
+                    'src/**/*.css'
+                ],
+                config: 'config.js'
             },
             colors: true,
             concurrency: Infinity
@@ -187,16 +180,4 @@ module.exports = function (grunt) {
         'build',
         'watch:build'
     ]);
-
-    //////////////////////////////////////////////// private functions ////////////////////////////////////////////////
-
-    /**
-     * Filters out
-     * @param {string} src
-     * @returns {boolean}
-     */
-    function filterJspmPackages(src)
-    {
-        return src.indexOf('src/jspm_packages') === -1;
-    }
 };
