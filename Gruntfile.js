@@ -162,6 +162,7 @@ module.exports = function (grunt) {
 
     // build task
     grunt.registerTask('build', [
+        'karma:unit',
         'clean:build',
         'less:src',
         'copy:build'
@@ -169,6 +170,7 @@ module.exports = function (grunt) {
 
     // default dist task
     grunt.registerTask('dist', [
+        'karma:unit',
         'clean:dist',
         'less:dist',
         'jspm:dist',

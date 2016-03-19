@@ -21,6 +21,7 @@ System.config({
     "clean-css": "npm:clean-css@3.4.10",
     "core-js": "npm:core-js@1.2.6",
     "css": "github:systemjs/plugin-css@0.1.20",
+    "jquery": "npm:jquery@2.2.2",
     "text": "github:systemjs/plugin-text@0.0.4",
     "github:angular/bower-angular-mocks@1.5.1": {
       "angular": "github:angular/bower-angular@1.5.1"
