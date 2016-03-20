@@ -5,7 +5,7 @@ import './../styles/styles.css!';
 
 /**
  * @ngdoc directive
- * @name module.twBusinessCard.directive:twBusinessCard
+ * @name twinwork.twBusinessCard.directive:twBusinessCard
  * @description An HTML element that generates a business card with a person's information
  * @returns {{restrict: string, scope: {}, template, controller: TwBusinessCardController, controllerAs: string, link: link}}
  */
@@ -37,17 +37,17 @@ export default function twBusinessCard()
 /**
  * @ngdoc property
  * @name $inject
- * @propertyOf module.twBusinessCard.controller:TwBusinessCardController
+ * @propertyOf twinwork.twBusinessCard.controller:TwBusinessCardController
  * @description An array of components for dependency injection for the
- * {@link module.twBusinessCard.controller:TwBusinessCardController TwBusinessCardController} controller
+ * {@link twinwork.twBusinessCard.controller:TwBusinessCardController TwBusinessCardController} controller
  * @type {Array}
  */
 TwBusinessCardController.$inject = [];
 
 /**
  * @ngdoc controller
- * @name module.twBusinessCard.controller:TwBusinessCardController
- * @description A controller for the {@link module.twBusinessCard.directive:twBusinessCard twBusinessCard} directive
+ * @name twinwork.twBusinessCard.controller:TwBusinessCardController
+ * @description A controller for the {@link twinwork.twBusinessCard.directive:twBusinessCard twBusinessCard} directive
  */
 function TwBusinessCardController()
 {
@@ -69,7 +69,7 @@ function TwBusinessCardController()
     /**
      * @ngdoc method
      * @name initialize
-     * @methodOf module.twBusinessCard.controller:TwBusinessCardController
+     * @methodOf twinwork.twBusinessCard.controller:TwBusinessCardController
      * @description Initializes the controller
      * @param {object} [data]
      */
