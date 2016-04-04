@@ -27,6 +27,12 @@ describe('twBusinessCard directive without settings', function () {
         expect(isolate.vm.contact.phone).to.be.a('string');
         expect(isolate.vm.contact.oneLiner).to.be.a('string');
     });
+
+    it('should have a "hover" class when mouse over', function () {
+        isolate.over = true;
+        isolate.$apply();
+        expect(element.hasClass('hover')).to.be.true;
+    });
 });
 
 describe('twBusinessCard directive with contact', function () {

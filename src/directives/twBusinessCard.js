@@ -6,8 +6,10 @@ import './../styles/styles.css!';
 /**
  * @ngdoc directive
  * @name twinwork.twBusinessCard.directive:twBusinessCard
+ * @restrict E
+ * @scope
  * @description An HTML element that generates a business card with a person's information
- * @returns {{restrict: string, scope: {}, template, controller: TwBusinessCardController, controllerAs: string, link: link}}
+ * @param {object} [contact]
  */
 export default function twBusinessCard()
 {
